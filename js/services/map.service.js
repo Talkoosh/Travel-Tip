@@ -4,6 +4,7 @@ export const mapService = {
     initMap,
     addMarker,
     panTo,
+    getCurrMapCenter
 }
 
 import { locService } from './loc.service.js'
@@ -27,6 +28,12 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
                 saveClickedLoc(mapsMouseEvent)
             })
         });
+}
+
+function getCurrMapCenter(){
+    const lat = gMap.center.lat(); 
+    const lng = gMap.center.lng(); 
+    return {lat, lng}
 }
 
 function addMarker(loc) {

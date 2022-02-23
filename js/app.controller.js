@@ -7,15 +7,16 @@ window.onPanTo = onPanTo;
 window.onGetLocs = onGetLocs;
 window.onGetUserPos = onGetUserPos;
 window.onGoToLoc = onGoToLoc;
-window.onDeleteLoc = onDeleteLoc; 
+window.onDeleteLoc = onDeleteLoc;
 window.onSearchLoc = onSearchLoc;
-
+window.onCopyLink = onCopyLink;
 
 
 function onInit() {
     mapService.initMap()
         .then(() => {
             console.log('Map is ready');
+           
         })
         .catch(() => console.log('Error: cannot init map'));
 }
@@ -49,13 +50,13 @@ function onGetLocs() {
         })
 }
 
-function onDeleteLoc(id){
+function onDeleteLoc(id) {
     locService.deleteLoc(id);
     onGetLocs();
 }
 
-function onGoToLoc(lat,lng){
-    mapService.panTo(lat,lng)
+function onGoToLoc(lat, lng) {
+    mapService.panTo(lat, lng)
 }
 
 function onGetUserPos() {
@@ -81,4 +82,18 @@ function onPanTo() {
 function onSearchLoc() {
     var val = document.querySelector('[name="search-input"]').value;
     locService.searchLoc(val);
+}
+
+function onCopyLink() {
+    const pos = mapService.getCurrMapCenter();
+
+    const URL = `https://talkoosh.github.io/Travel-Tip/index.html?lat=${pos.lat}&lng=${pos.lng}`
+    navigator.clipboard.writeText(URL);
+    
+    const params = new Proxy(new URLSearchParams(window.location.search), {
+        get: (searchParams, prop) => searchParams.get(prop),
+      });
+      // Get the value of "some_key" in eg "https://example.com/?some_key=some_value"
+      let value = params.lat; // "some_value"
+      console.log(value);
 }
