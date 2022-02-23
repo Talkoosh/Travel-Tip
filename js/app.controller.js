@@ -41,9 +41,9 @@ function getPosition() {
     })
 }
 
-function onAddMarker() {
+function onAddMarker(lat, lng, name) {
     console.log('Adding a marker');
-    mapService.addMarker({ lat: 32.0749831, lng: 34.9120554 });
+    mapService.addMarker({lat, lng}, name);
 }
 
 function onGetLocs() {
@@ -51,11 +51,11 @@ function onGetLocs() {
         .then(locs => {
             console.log('Locations:', locs)
             let stringHTMLs = locs.map((loc) => {
-                // loc.marker = mapService.addMarker({ lat: loc.lat, lng: loc.lng }, loc.name)
+                onAddMarker(loc.lat, loc.lng, loc.name)
                 return `<div>
                 <p>name: ${loc.name} lat: ${loc.lat} lng: ${loc.lng}</p>
                 <button onclick="onGoToLoc(${loc.lat}, ${loc.lng})">Go</button>
-                <button onclick="onDeleteLoc('${loc.id}')">Delete</button>
+                <button onclick="onDeleteLoc(${loc.lat}, ${loc.lng}, '${loc.id}')">Delete</button>
                 </div> `
             }).join('')
 
@@ -63,8 +63,9 @@ function onGetLocs() {
         })
 }
 
-function onDeleteLoc(id) {
+function onDeleteLoc(lat, lng, id) {
     locService.deleteLoc(id);
+    mapService.removeMarker(lat,lng);
     onGetLocs();
 }
 

@@ -1,0 +1,6 @@
+.locations{
+    display: flex;
+    flex-direction: column;
+    font-size: 1.5rem;
+    color: var(--clr2);
+}

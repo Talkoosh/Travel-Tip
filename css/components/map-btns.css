@@ -1,0 +1,16 @@
+.map-btns{
+    margin: 20px 0;
+    display: flex;
+    gap: 10px;
+}
+
+.map-btns button{
+    font-size: 1rem;
+    border-radius: 100rem;
+    padding: 10px;
+    background-color: var(--clr1);
+}
+
+.map-btns button:hover{
+    background-color: var(--clr2);
+}
