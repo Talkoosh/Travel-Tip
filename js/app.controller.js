@@ -6,8 +6,8 @@ window.onAddMarker = onAddMarker;
 window.onPanTo = onPanTo;
 window.onGetLocs = onGetLocs;
 window.onGetUserPos = onGetUserPos;
-
-
+window.onGoToLoc = onGoToLoc;
+window.onDeleteLoc = onDeleteLoc; 
 
 function onInit() {
     mapService.initMap()
@@ -35,11 +35,24 @@ function onGetLocs() {
         .then(locs => {
             console.log('Locations:', locs)
             let stringHTMLs = locs.map((loc) => {
-                return `<div>name: ${loc.name} lat: ${loc.lat} lng: ${loc.lng}</div> `
+                return `<div>
+                <p>name: ${loc.name} lat: ${loc.lat} lng: ${loc.lng}</p>
+                <button onclick="onGoToLoc(${loc.lat}, ${loc.lng})">Go</button>
+                <button onclick="onDeleteLoc('${loc.id}')">Delete</button>
+                </div> `
             }).join('')
             
             document.querySelector('.locs').innerHTML = stringHTMLs;
         })
+}
+
+function onDeleteLoc(id){
+    locService.deleteLoc(id);
+    onGetLocs();
+}
+
+function onGoToLoc(lat,lng){
+    mapService.panTo(lat,lng)
 }
 
 function onGetUserPos() {

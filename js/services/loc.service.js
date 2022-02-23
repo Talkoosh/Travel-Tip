@@ -1,25 +1,19 @@
 import {storage} from './storage.service.js'
+import {makeId} from '../utils.js'
 export const locService = {
     getLocs,
     addLoc,
+    deleteLoc
 }
-
-hi()
 
 const LOCS_KEY = 'LOCS'
 const locs = storage.load(LOCS_KEY) || []; 
 
 function addLoc(loc){
     loc.createdAt = Date.now(); 
+    loc.id = makeId(); 
     locs.push(loc);
     storage.save(LOCS_KEY, locs)
-}
-
-
-function hi(){
-    fetch('https://maps.googleapis.com/maps/api/geocode/json?address=Israel&key=AIzaSyD-KPvaSQmdmLMPid-c2TdBzO8d_kLjUVE')
-    .then(res => res.json())
-    .then(res => console.log(res))
 }
 
 function getLocs() {
@@ -28,4 +22,10 @@ function getLocs() {
             resolve(locs);
         }, 2000)
     });
+}
+
+function deleteLoc(id){
+    const locIdx = locs.findIndex((loc) => loc.id === id);
+    locs.splice(locIdx, 1);
+    storage.save(LOCS_KEY, locs);
 }
