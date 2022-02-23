@@ -15,8 +15,6 @@ function addLoc(loc){
 }
 
 function getLocs() {
-    if(!locs || !locs.length) return; 
-
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             resolve(locs);
