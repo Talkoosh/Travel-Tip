@@ -8,6 +8,9 @@ window.onGetLocs = onGetLocs;
 window.onGetUserPos = onGetUserPos;
 window.onGoToLoc = onGoToLoc;
 window.onDeleteLoc = onDeleteLoc; 
+window.onSearchLoc = onSearchLoc;
+
+
 
 function onInit() {
     mapService.initMap()
@@ -41,7 +44,7 @@ function onGetLocs() {
                 <button onclick="onDeleteLoc('${loc.id}')">Delete</button>
                 </div> `
             }).join('')
-            
+
             document.querySelector('.locs').innerHTML = stringHTMLs;
         })
 }
@@ -64,7 +67,6 @@ function onGetUserPos() {
             document.querySelector('.user-pos').innerText =
                 `Latitude: ${lat} - Longitude: ${lng}`
             mapService.panTo(lat, lng);
-            mapService.addMarker({ lat, lng })
         })
         .catch(err => {
             console.log('err!!!', err);
@@ -74,4 +76,9 @@ function onGetUserPos() {
 function onPanTo() {
     console.log('Panning the Map');
     mapService.panTo(35.6895, 139.6917);
+}
+
+function onSearchLoc() {
+    var val = document.querySelector('[name="search-input"]').value;
+    locService.searchLoc(val);
 }
