@@ -10,6 +10,7 @@ export const mapService = {
 import { locService } from './loc.service.js'
 
 var gMap;
+var gMarkers = [];
 
 function initMap(lat, lng) {
     console.log(lat, lng);
@@ -31,28 +32,31 @@ function initMap(lat, lng) {
         });
 }
 
-function getCurrMapCenter(){
-    const lat = gMap.center.lat(); 
-    const lng = gMap.center.lng(); 
-    return {lat, lng}
+function getCurrMapCenter() {
+    const lat = gMap.center.lat();
+    const lng = gMap.center.lng();
+    return { lat, lng }
 }
 
-function addMarker(loc) {
+function addMarker(loc, title = 'Hello World') {
+    console.log('add marker', loc)
     var marker = new google.maps.Marker({
         position: loc,
         map: gMap,
-        title: 'Hello World!'
+        title
     });
+    // gMarkers.push(marker)
     return marker;
 }
 
 function saveClickedLoc(mapsMouseEvent) {
     var isSaveLoc = confirm('Would you like to save this location?')
     if (!isSaveLoc) return
-    const posLat = mapsMouseEvent.latLng.lat();
-    const posLng = mapsMouseEvent.latLng.lng();
+    const lat = mapsMouseEvent.latLng.lat();
+    const lng = mapsMouseEvent.latLng.lng();
     const posName = prompt('How would you like to call this location?')
-    locService.addLoc({ name: posName, lat: posLat, lng: posLng });
+    locService.addLoc({ name: posName, lat: lat, lng: lng });
+    addMarker({ lat, lng }, posName)
 }
 
 function panTo(lat, lng) {

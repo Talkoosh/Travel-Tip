@@ -1,5 +1,5 @@
-import {storage} from './storage.service.js'
-import {makeId} from '../utils.js'
+import { storage } from './storage.service.js'
+import { makeId } from '../utils.js'
 import { mapService } from './map.service.js'
 export const locService = {
     getLocs,
@@ -13,9 +13,9 @@ const API_KEY = 'AIzaSyD-KPvaSQmdmLMPid-c2TdBzO8d_kLjUVE';
 const LOCS_KEY = 'LOCS'
 const locs = storage.load(LOCS_KEY) || [];
 
-function addLoc(loc){
-    loc.createdAt = Date.now(); 
-    loc.id = makeId(); 
+function addLoc(loc) {
+    loc.createdAt = Date.now();
+    loc.id = makeId();
     locs.push(loc);
     storage.save(LOCS_KEY, locs)
 }
@@ -28,11 +28,12 @@ function getLocs() {
     });
 }
 
-function deleteLoc(id){
+function deleteLoc(id) {
     const locIdx = locs.findIndex((loc) => loc.id === id);
     locs.splice(locIdx, 1);
     storage.save(LOCS_KEY, locs);
 }
+
 function searchLoc(val) {
     axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${val}&key=${API_KEY}`)
         .then(res => res.data)

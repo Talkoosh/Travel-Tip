@@ -51,6 +51,7 @@ function onGetLocs() {
         .then(locs => {
             console.log('Locations:', locs)
             let stringHTMLs = locs.map((loc) => {
+                // loc.marker = mapService.addMarker({ lat: loc.lat, lng: loc.lng }, loc.name)
                 return `<div>
                 <p>name: ${loc.name} lat: ${loc.lat} lng: ${loc.lng}</p>
                 <button onclick="onGoToLoc(${loc.lat}, ${loc.lng})">Go</button>
@@ -80,6 +81,7 @@ function onGetUserPos() {
             document.querySelector('.user-pos').innerText =
                 `Latitude: ${lat} - Longitude: ${lng}`
             mapService.panTo(lat, lng);
+            mapService.addMarker({ lat, lng });
         })
         .catch(err => {
             console.log('err!!!', err);
