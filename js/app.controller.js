@@ -7,18 +7,31 @@ window.onPanTo = onPanTo;
 window.onGetLocs = onGetLocs;
 window.onGetUserPos = onGetUserPos;
 window.onGoToLoc = onGoToLoc;
-window.onDeleteLoc = onDeleteLoc; 
+window.onDeleteLoc = onDeleteLoc;
+window.onCopyLink = onCopyLink;
 window.onSearchLoc = onSearchLoc;
 
 
-
 function onInit() {
-    mapService.initMap()
+    const params = new Proxy(new URLSearchParams(window.location.search), {
+        get: (searchParams, prop) => searchParams.get(prop),
+    });
+
+    let lat = +params.lat;
+    let lng = +params.lng;
+    if (!lat || !lng) {
+        lat = 32.0749831;
+        lng = 34.9120554;
+    }
+
+    mapService.initMap(lat, lng)
         .then(() => {
             console.log('Map is ready');
+
         })
         .catch(() => console.log('Error: cannot init map'));
 }
+
 
 // This function provides a Promise API to the callback-based-api of getCurrentPosition
 function getPosition() {
@@ -49,13 +62,13 @@ function onGetLocs() {
         })
 }
 
-function onDeleteLoc(id){
+function onDeleteLoc(id) {
     locService.deleteLoc(id);
     onGetLocs();
 }
 
-function onGoToLoc(lat,lng){
-    mapService.panTo(lat,lng)
+function onGoToLoc(lat, lng) {
+    mapService.panTo(lat, lng)
 }
 
 function onGetUserPos() {
@@ -81,4 +94,13 @@ function onPanTo() {
 function onSearchLoc() {
     var val = document.querySelector('[name="search-input"]').value;
     locService.searchLoc(val);
+}
+
+function onCopyLink() {
+    const pos = mapService.getCurrMapCenter();
+
+    const URL = `https://talkoosh.github.io/Travel-Tip/index.html?lat=${pos.lat}&lng=${pos.lng}`
+    navigator.clipboard.writeText(URL);
+
+
 }
