@@ -5,6 +5,8 @@ export const mapService = {
     panTo
 }
 
+import { locService } from './loc.service.js'
+
 var gMap;
 
 function initMap(lat = 32.0749831, lng = 34.9120554) {
@@ -21,7 +23,7 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
         })
         .then(() => {
             gMap.addListener("click", (mapsMouseEvent) => {
-                console.log(mapsMouseEvent)
+                saveClickedLoc(mapsMouseEvent)
             })
         });
 }
@@ -35,8 +37,11 @@ function addMarker(loc) {
     return marker;
 }
 
-function saveClickedLoc() {
-
+function saveClickedLoc(mapsMouseEvent) {
+    const posLat = mapsMouseEvent.latLng.lat();
+    const posLng = mapsMouseEvent.latLng.lng();
+    const posName = prompt('How would you like to call this location?')
+    locService.addLoc({ name: posName, lat: posLat, lng: posLng });
 }
 
 function panTo(lat, lng) {
