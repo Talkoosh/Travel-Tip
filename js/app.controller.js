@@ -8,8 +8,8 @@ window.onGetLocs = onGetLocs;
 window.onGetUserPos = onGetUserPos;
 window.onGoToLoc = onGoToLoc;
 window.onDeleteLoc = onDeleteLoc;
-window.onSearchLoc = onSearchLoc;
 window.onCopyLink = onCopyLink;
+window.onSearchLoc = onSearchLoc;
 
 
 function onInit() {
