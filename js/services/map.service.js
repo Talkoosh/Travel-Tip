@@ -1,8 +1,9 @@
+const API_KEY = 'AIzaSyD-KPvaSQmdmLMPid-c2TdBzO8d_kLjUVE';
+
 export const mapService = {
-    gMap,
     initMap,
     addMarker,
-    panTo
+    panTo,
 }
 
 import { locService } from './loc.service.js'
@@ -38,6 +39,8 @@ function addMarker(loc) {
 }
 
 function saveClickedLoc(mapsMouseEvent) {
+    var isSaveLoc = confirm('Would you like to save this location?')
+    if (!isSaveLoc) return
     const posLat = mapsMouseEvent.latLng.lat();
     const posLng = mapsMouseEvent.latLng.lng();
     const posName = prompt('How would you like to call this location?')
@@ -51,7 +54,6 @@ function panTo(lat, lng) {
 
 function _connectGoogleApi() {
     if (window.google) return Promise.resolve()
-    const API_KEY = 'AIzaSyD-KPvaSQmdmLMPid-c2TdBzO8d_kLjUVE';
     var elGoogleApi = document.createElement('script');
     elGoogleApi.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}`;
     elGoogleApi.async = true;
