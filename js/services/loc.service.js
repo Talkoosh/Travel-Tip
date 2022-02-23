@@ -16,6 +16,7 @@ const locs = storage.load(LOCS_KEY) || [];
 function addLoc(loc) {
     loc.createdAt = Date.now();
     loc.id = makeId();
+    loc.marker = mapService.addMarker({ lat: loc.lat, lng: loc.lng }, loc.name)
     locs.push(loc);
     storage.save(LOCS_KEY, locs)
 }
@@ -24,12 +25,13 @@ function getLocs() {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             resolve(locs);
-        }, 2000)
+        }, 500)
     });
 }
 
 function deleteLoc(id) {
     const locIdx = locs.findIndex((loc) => loc.id === id);
+    locs[locIdx].marker
     locs.splice(locIdx, 1);
     storage.save(LOCS_KEY, locs);
 }
