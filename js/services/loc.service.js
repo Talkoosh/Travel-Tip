@@ -6,10 +6,7 @@ export const locService = {
 
 
 const LOCS_KEY = 'LOCS'
-const locs = [
-    { name: 'Greatplace', lat: 32.047104, lng: 34.832384, createdAt: Date.now()}, 
-    { name: 'Neveragain', lat: 32.047201, lng: 34.832581, createdAt: Date.now() }
-]
+const locs = storage.load(LOCS_KEY) || []; 
 
 function addLoc(loc){
     loc.createdAt = Date.now(); 
@@ -18,6 +15,8 @@ function addLoc(loc){
 }
 
 function getLocs() {
+    if(!locs || !locs.length) return; 
+
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             resolve(locs);
